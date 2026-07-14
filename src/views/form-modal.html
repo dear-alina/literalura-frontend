@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Literalura - Modal de Hechizo</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;600&display=swap" rel="stylesheet" />
+
+  <script src="../styles/tailwind.config.js"></script>
+  <link href="../styles/global.css" rel="stylesheet" />
+  <link href="../styles/variables.css" rel="stylesheet" />
+  <link href="../styles/modules/_form-modal.css" rel="stylesheet" />
+</head>
+
+<body class="bg-background font-headline-md min-h-screen text-charcoal-text antialiased relative">
+  <!-- Mock Content to show background blur -->
+  <div class="p-8 max-w-5xl mx-auto space-y-6 opacity-40 pointer-events-none">
+    <div class="h-12 bg-white rounded-lg shadow-sm w-1/3"></div>
+    <div class="grid grid-cols-3 gap-6">
+      <div class="h-64 bg-white rounded-lg shadow-sm"></div>
+      <div class="h-64 bg-white rounded-lg shadow-sm"></div>
+      <div class="h-64 bg-white rounded-lg shadow-sm"></div>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop -->
+  <div id="modal-backdrop"
+    class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm p-4 bg-charcoal-text/40 transition-opacity duration-300">
+    <!-- Modal Container -->
+    <div id="modal-container"
+      class="w-full max-w-md bg-[#FDFBF7] shadow-2xl p-6 relative animate-spring border-4 border-tan-neutral organic-border transition-transform duration-300">
+
+      <!-- Close Button -->
+      <button aria-label="Cerrar modal"
+        class="absolute top-4 right-4 text-outline hover:text-charcoal-text transition-colors focus:outline-none focus:ring-2 focus:ring-primary-container rounded-full p-1"
+        id="close-modal-btn">
+        <span class="material-symbols-outlined text-2xl">close</span>
+      </button>
+
+      <!-- Header -->
+      <div class="text-center mb-4">
+        <div
+          class="w-32 h-44 mx-auto mb-4 rounded-xl overflow-hidden shadow-md border-2 border-[#C9A876] transition-transform duration-300 hover:scale-105">
+          <img alt="Portada del libro" class="w-full h-full object-cover" id="cover-img"
+            src="../assets/images/portada.png" onerror="this.onerror=null; this.src='../assets/images/portada.png';" />
+        </div>
+        <h2 class="text-2xl font-bold text-charcoal-text">Detalles de la Obra</h2>
+        <p class="text-outline mt-1 text-base font-medium">Prepara los detalles de tu nueva historia.</p>
+      </div>
+
+      <!-- Form -->
+      <form class="space-y-6">
+        <!-- Informative Presentation Block -->
+        <div class="text-center space-y-2 mb-4">
+          <h1 class="text-2xl font-bold text-charcoal-text" id="title-input">Título del Libro</h1>
+          <div class="flex items-center justify-center gap-4 text-base text-outline font-medium">
+            <div class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-[22px]">person</span>
+              <span id="author-input">Nombre del Autor</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-[22px]">language</span>
+              <span id="language-select">Idioma</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note Input -->
+        <div>
+          <label class="block text-lg font-bold text-charcoal-text mb-2">Nota o Reseña:</label>
+          <textarea
+            class="w-full organic-border p-3 focus:ring-2 focus:ring-primary-container outline-none border-2 border-tan-neutral bg-surface-container-lowest shadow-sm text-charcoal-text text-base"
+            id="note-input" placeholder="Tus impresiones sobre este libro..." rows="3"></textarea>
+          <p class="text-sm text-outline mt-1 text-right italic">Presiona <kbd
+              class="font-sans font-bold text-charcoal-text bg-stone-200 px-1 rounded">Enter</kbd> para guardar</p>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <button
+            class="w-full bg-primary-container text-white font-bold text-xl py-4 hover:bg-primary focus:ring-4 focus:ring-primary-fixed transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group organic-border border-2 border-primary-container"
+            id="save-btn" type="button">
+            <span class="btn-text-default flex items-center gap-2"><span
+                class="material-symbols-outlined group-hover:scale-110 transition-transform">edit_note</span> Guardar
+              Nota</span>
+            <span class="btn-text-loading hidden items-center gap-2"><span
+                class="material-symbols-outlined animate-spin">hourglass_empty</span> Guardando Nota...</span>
+          </button>
+        </div>
+        <div id="success-message-container" class="w-full text-center"></div>
+      </form>
+    </div>
+  </div>
+
+  <template id="success-msg-template">
+    <p class="text-accent font-bold mt-2 text-xl">✨ ¡Tu nota fue guardada exitosamente!</p>
+  </template>
+
+  <template id="error-toast-template">
+    <div
+      class="fixed bottom-4 right-4 bg-red-50 border border-red-200 rounded-lg text-red-800 font-medium text-lg p-4 max-w-sm z-50 error-toast-msg">
+    </div>
+  </template>
+
+  <script type="module" src="../scripts/pages/form-modal.js"></script>
+</body>
+
+</html>

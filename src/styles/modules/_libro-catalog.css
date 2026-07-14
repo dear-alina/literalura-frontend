@@ -1,0 +1,31 @@
+/* _libro-catalog.css */
+/* Estilos específicos para el catálogo de libros */
+
+/* Botón "Mostrar Todos" — color teal, distinto del rojo primario y fondos oscuros */
+.btn-mostrar-todos-style {
+    background-color: #0f766e;       /* teal-700 */
+    color: #ffffff;
+    border: 2px solid transparent;
+    font-family: var(--font-main);
+}
+
+.btn-mostrar-todos-style:hover {
+    background-color: #0d9488;       /* teal-600 — más claro al hacer hover */
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.35);
+    transform: translateY(-2px);
+}
+
+.btn-mostrar-todos-style:active {
+    transform: translateY(0);
+    background-color: #115e59;       /* teal-800 — más oscuro al presionar */
+}
+
+/* Animación de giro para el ícono durante la carga */
+@keyframes spin-once {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.btn-mostrar-todos-style.loading .material-symbols-outlined {
+    animation: spin-once 0.6s linear;
+}

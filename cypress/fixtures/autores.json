@@ -1,0 +1,21 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "nombre": "Jane Austen",
+      "anoNacimiento": 1775,
+      "anoFallecimiento": 1817
+    },
+    {
+      "id": 2,
+      "nombre": "J.R.R. Tolkien",
+      "anoNacimiento": 1892,
+      "anoFallecimiento": 1973
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10
+  },
+  "totalElements": 2
+}

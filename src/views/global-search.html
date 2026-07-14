@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Literalura - Búsqueda Global</title>
+
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Vollkorn:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="../styles/tailwind.config.js"></script>
+  <link href="../styles/global.css" rel="stylesheet" />
+  <link href="../styles/variables.css" rel="stylesheet" />
+  <link href="../styles/modules/_global-search.css" rel="stylesheet" />
+</head>
+
+<body class="font-display text-secondary antialiased bg-background">
+  <div class="relative flex h-auto min-h-screen w-full flex-col bg-background group/design-root overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+      <div class="px-40 flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+          <header
+            class="flex items-center justify-between whitespace-nowrap border-b border-solid border-accent/20 px-10 py-6">
+            <div class="flex items-center gap-4 text-secondary">
+              <div class="size-8 text-primary flex items-center justify-center">
+                <img alt="Academic Cat Logo" class="w-full h-full object-contain" src="../assets/images/portada.png" />
+              </div>
+              <h2 class="text-secondary text-2xl font-bold leading-tight tracking-[-0.015em] font-heading">Literalura
+              </h2>
+            </div>
+            <div class="flex flex-1 justify-end gap-8">
+              <div class="flex items-center gap-9">
+                <a class="text-secondary text-lg font-medium leading-normal hover:text-primary transition-colors"
+                  href="libro-catalog.html">Catálogo</a>
+                <a class="text-secondary text-lg font-medium leading-normal hover:text-primary transition-colors"
+                  href="autor-directory.html">Autores</a>
+              </div>
+            </div>
+          </header>
+          <div class="@container flex-1 flex items-center justify-center">
+            <div
+              class="flex flex-col gap-6 px-4 py-10 @[480px]:gap-8 @[864px]:flex-col w-full items-center justify-center">
+              <div
+                class="w-full max-w-[400px] bg-center bg-no-repeat aspect-square bg-contain @[480px]:h-[300px] @[480px]:min-w-[300px] mb-8"
+                data-alt="Academic reader cat wearing glasses"
+                style='background-image: url("../assets/images/leyendo.png");'>
+              </div>
+              <div class="flex flex-col gap-6 @[480px]:min-w-[600px] w-full @[480px]:gap-8 items-center">
+                <h1
+                  class="text-secondary text-5xl font-black leading-tight tracking-[-0.033em] @[480px]:text-7xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] text-center font-heading">
+                  Literalura
+                </h1>
+                <label
+                  class="flex flex-col min-w-40 h-16 w-full max-w-[600px] shadow-paper hover:shadow-paper-hover transition-shadow duration-300 rounded-xl organic-border">
+                  <div
+                    class="flex w-full flex-1 items-stretch h-full border-2 border-accent bg-white overflow-hidden organic-border">
+                    <div class="text-accent flex border-none bg-white items-center justify-center pl-6 border-r-0"
+                      data-icon="MagnifyingGlass" data-size="24px" data-weight="regular">
+                      <img class="size-6 opacity-60" src="../assets/icons/lupa.png" />
+                    </div>
+                    <input id="search-input"
+                      class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-secondary focus:outline-0 focus:ring-0 border-none bg-white focus:border-none h-full placeholder:text-accent/70 px-4 border-r-0 pr-2 border-l-0 pl-4 text-xl font-medium leading-normal"
+                      placeholder="¿Qué historia buscas hoy?" value="" />
+                    <div class="flex items-center justify-center border-l-0 border-none bg-white pr-2">
+                      <button id="search-btn" type="button"
+                        class="flex min-w-[120px] cursor-pointer items-center justify-center overflow-hidden h-10 px-6 bg-primary text-white text-xl font-bold leading-normal tracking-[0.015em] font-heading hover:-translate-y-0.5 transition-transform duration-200 active:translate-y-0 organic-border">
+                        <span class="truncate">¡Buscar!</span>
+                      </button>
+                    </div>
+                  </div>
+                </label>
+                <div id="message-container" class="w-full max-w-[600px] text-center mt-4"></div>
+
+                <template id="loading-msg-template">
+                  <p class="text-accent font-bold mt-4 text-xl" id="msg-text">Buscando en el catálogo...</p>
+                </template>
+                <template id="success-msg-template">
+                  <p class="text-accent font-bold mt-4 text-xl" id="msg-text">¡Libro encontrado y guardado con éxito!
+                    Redirigiendo...</p>
+                </template>
+                <template id="error-msg-template">
+                  <p class="text-error font-bold mt-4 text-xl" id="msg-text"></p>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+      <p class="text-terracotta text-body-md font-body-md">© 2026 Literalura. Un cuento de hadas moderno.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="../scripts/pages/global-search.js"></script>
+  <script type="module" src="../scripts/main.js"></script>
+</body>
+
+</html>

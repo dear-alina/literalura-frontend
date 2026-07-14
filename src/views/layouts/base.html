@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Literalura -Plantilla Base</title>
+    <!-- Dependencias externas -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Configuración y Estilos Globales -->
+    <script src="../styles/tailwind.config.js"></script>
+    <link href="../styles/global.css" rel="stylesheet" />
+    <link href="../styles/variables.css" rel="stylesheet" />
+</head>
+
+<body class="bg-background-light text-background-dark min-h-screen flex flex-col">
+    <header
+        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 bg-white px-10 py-3 shrink-0">
+        <div class="flex items-center gap-4 text-background-dark">
+            <h2 class="text-background-dark text-lg font-bold leading-tight font-display">Literalura</h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+                <a class="text-background-dark text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="libro-catalog.html">Catálogo</a>
+                <a class="text-background-dark text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="autor-directory.html">Autores</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1">
+        <!-- Aquí irá el contenido específico de cada página -->
+    </main>
+
+    <footer class="flex flex-col gap-6 px-5 py-10 text-center">
+        <p class="text-gray-500 text-base font-normal leading-normal">© 2026 Literalura. Un cuento de hadas moderno.</p>
+    </footer>
+
+    <!-- Script principal global -->
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "titulo": "1984",
+      "idioma": "en",
+      "autor": {
+        "nombre": "George Orwell"
+      },
+      "gutendexId": 123
+    },
+    {
+      "id": 2,
+      "titulo": "El Quijote",
+      "idioma": "es",
+      "autor": {
+        "nombre": "Miguel de Cervantes"
+      },
+      "gutendexId": 456
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10
+  },
+  "totalElements": 2
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Literalura - Autores</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Vollkorn:wght@400&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="../styles/tailwind.config.js"></script>
+  <link href="../styles/global.css" rel="stylesheet" />
+  <link href="../styles/variables.css" rel="stylesheet" />
+  <link href="../styles/modules/_autor-directory.css" rel="stylesheet" />
+</head>
+
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md"
+  style="background-color: #F7F1E8;">
+  <header
+    class="flex items-center justify-between whitespace-nowrap border-b border-outline-variant bg-surface-container-lowest px-10 py-6 shrink-0">
+    <a href="global-search.html" class="flex items-center gap-4 text-charcoal-text hover:opacity-80 transition-opacity">
+      <div class="size-10 rounded-full overflow-hidden border border-outline-variant">
+        <img alt="Mascot Logo" class="w-full h-full object-cover" src="../assets/images/portada.png">
+      </div>
+      <h2 class="text-charcoal-text text-2xl font-bold tracking-[-0.015em]">Literalura</h2>
+    </a>
+    <div class="flex flex-1 justify-end gap-8">
+      <div class="flex items-center gap-9">
+        <a class="text-on-surface-variant text-lg font-medium hover:text-primary transition-colors pb-1"
+          href="libro-catalog.html">Catálogo</a>
+        <a class="text-primary text-lg font-medium border-b-2 border-primary pb-1"
+          href="autor-directory.html">Autores</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1 max-w-container-max mx-auto w-full px-8 md:px-16 py-6 gap-10 mt-8 flex-col">
+
+          <div class="flex flex-wrap justify-between gap-3 p-4">
+            <div class="flex min-w-72 flex-col gap-3">
+              <div class="flex items-center gap-4">
+                <img alt="Author Quill Icon" class="size-12" src="../assets/icons/libros.png" />
+                <p class="text-charcoal-text text-5xl font-bold">Autores</p>
+              </div>
+              <p class="text-terracotta text-xl font-medium">Conoce a los magos detrás de las palabras</p>
+            </div>
+          </div>
+
+          <div class="@container">
+            <div class="relative flex w-full flex-col items-start justify-between gap-3 p-4 @[480px]:flex-row">
+              <p class="text-charcoal-text text-2xl font-bold w-full shrink-[3]">Su paso por el mundo:</p>
+              <div class="flex flex-col w-full gap-2">
+                <div class="flex items-center gap-4 w-full">
+                  <!-- El id 'year-current-label' mostrará el valor dinámico -->
+                  <span id="year-current-label"
+                    class="text-charcoal-text text-lg min-w-[40px] font-bold">1800</span>
+                  <div class="relative flex-1 h-6 flex items-center">
+                    <input type="range" id="year-filter" min="1700" max="2026" value="1800"
+                      class="w-full h-1 bg-navy rounded-full appearance-none cursor-pointer accent-terracotta">
+                  </div>
+                  <span id="year-max-label"
+                    class="text-charcoal-text text-lg min-w-[40px] font-bold">2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-6 p-4" id="authors-grid">
+          </div>
+
+          <template id="author-card-template">
+            <div
+              class="flex flex-col gap-3 pb-3 card-scalloped bg-white p-3 rounded-xl shadow-md border border-tan-neutral/30">
+              <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-xl cover-img"></div>
+              <div>
+                <p class="text-charcoal-text text-body-md font-headline-md font-bold author-name"></p>
+                <p class="text-terracotta text-label-sm font-label-sm mt-1 author-dates"></p>
+              </div>
+            </div>
+          </template>
+
+          <template id="loading-state-template">
+            <p class="text-terracotta col-span-full text-center">Cargando magos de las palabras...</p>
+          </template>
+
+          <template id="error-state-template">
+            <p class="text-red-500 col-span-full text-center">No se pudo establecer conexión con el servidor backend.
+            </p>
+          </template>
+
+          <template id="empty-state-template">
+            <p class="text-terracotta col-span-full text-center">No se encontraron autores en este criterio.</p>
+          </template>
+
+          <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+            <p class="text-terracotta text-body-md font-body-md">© 2026 Literalura. Un cuento de hadas moderno.</p>
+          </footer>
+  </div>
+
+  <script type="module" src="../scripts/pages/autor-directory.js"></script>
+  <script type="module" src="../scripts/main.js"></script>
+</body>
+
+</html>
