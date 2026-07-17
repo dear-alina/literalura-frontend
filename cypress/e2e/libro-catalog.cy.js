@@ -1,7 +1,7 @@
 describe('Catálogo de Libros', () => {
   beforeEach(() => {
     // Interceptamos llamadas iniciales
-    cy.intercept('GET', 'http://localhost:8080/api/libros', { fixture: 'libros.json' }).as('getLibros');
+    cy.intercept('GET', '**/api/libros', { fixture: 'libros.json' }).as('getLibros');
     cy.visit('/libro-catalog.html');
   });
 
@@ -16,7 +16,7 @@ describe('Catálogo de Libros', () => {
     cy.wait('@getLibros');
 
     // Preparamos un interceptor para el filtrado por idioma "es"
-    cy.intercept('GET', 'http://localhost:8080/api/libros/idioma?idioma=es', {
+    cy.intercept('GET', '**/api/libros/idioma?idioma=es', {
       statusCode: 200,
       body: {
         content: [
@@ -42,7 +42,7 @@ describe('Catálogo de Libros', () => {
   it('debería buscar hechizos de forma flexible', () => {
     cy.wait('@getLibros');
 
-    cy.intercept('GET', 'http://localhost:8080/api/libros/busqueda-flexible?q=1984', {
+    cy.intercept('GET', '**/api/libros/busqueda-flexible?q=1984', {
       statusCode: 200,
       body: {
         content: [
@@ -70,12 +70,12 @@ describe('Catálogo de Libros', () => {
     cy.on('window:confirm', () => true);
 
     // Mock del endpoint DELETE
-    cy.intercept('DELETE', 'http://localhost:8080/api/libros/1', {
+    cy.intercept('DELETE', '**/api/libros/1', {
       statusCode: 204
     }).as('deleteLibro');
 
     // Mock del refetch de libros luego del delete
-    cy.intercept('GET', 'http://localhost:8080/api/libros', {
+    cy.intercept('GET', '**/api/libros', {
       statusCode: 200,
       body: {
         content: [

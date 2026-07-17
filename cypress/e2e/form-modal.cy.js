@@ -5,7 +5,7 @@ describe('Formulario Modal (Editar Libro)', () => {
       win.sessionStorage.setItem('bookIdToEdit', '1');
     });
 
-    cy.intercept('GET', 'http://localhost:8080/api/libros/1', {
+    cy.intercept('GET', '**/api/libros/1', {
       statusCode: 200,
       body: {
         id: 1,
@@ -32,7 +32,7 @@ describe('Formulario Modal (Editar Libro)', () => {
   it('debería permitir editar y guardar la nota exitosamente presionando ENTER', () => {
     cy.wait('@getLibro');
 
-    cy.intercept('PATCH', 'http://localhost:8080/api/libros/1/nota', {
+    cy.intercept('PATCH', '**/api/libros/1/nota', {
       statusCode: 200,
       body: { nota: 'Nota actualizada por Cypress' }
     }).as('patchNota');
@@ -50,7 +50,7 @@ describe('Formulario Modal (Editar Libro)', () => {
 
   it('debería mostrar un toast de error si la petición al backend falla', () => {
     // Simulamos fallo en la petición PATCH
-    cy.intercept('PATCH', 'http://localhost:8080/api/libros/1/nota', {
+    cy.intercept('PATCH', '**/api/libros/1/nota', {
       statusCode: 500,
       body: { error: 'Internal Server Error' }
     }).as('patchNotaError');

@@ -1,7 +1,7 @@
 describe('Búsqueda Global', () => {
   beforeEach(() => {
     // Interceptamos la llamada de búsqueda simulando un 201 Created
-    cy.intercept('POST', 'http://localhost:8080/api/libros/buscar-y-registrar', {
+    cy.intercept('POST', '**/api/libros/buscar-y-registrar', {
       statusCode: 201,
       body: { titulo: 'Cien Años de Soledad', autor: 'Gabriel García Márquez' }
     }).as('buscarLibro');
@@ -27,7 +27,7 @@ describe('Búsqueda Global', () => {
   });
 
   it('debería mostrar mensaje de error si el servidor devuelve un 404', () => {
-    cy.intercept('POST', 'http://localhost:8080/api/libros/buscar-y-registrar', {
+    cy.intercept('POST', '**/api/libros/buscar-y-registrar', {
       statusCode: 404,
       body: { error: 'Not found' }
     }).as('buscarLibroError');

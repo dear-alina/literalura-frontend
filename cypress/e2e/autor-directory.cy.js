@@ -1,6 +1,6 @@
 describe('Directorio de Autores', () => {
   beforeEach(() => {
-    cy.intercept('GET', 'http://localhost:8080/api/autores', { fixture: 'autores.json' }).as('getAutores');
+    cy.intercept('GET', '**/api/autores', { fixture: 'autores.json' }).as('getAutores');
     cy.visit('/autor-directory.html');
   });
 
@@ -23,7 +23,7 @@ describe('Directorio de Autores', () => {
   });
 
   it('debería mostrar un mensaje de error si falla la red', () => {
-    cy.intercept('GET', 'http://localhost:8080/api/autores', {
+    cy.intercept('GET', '**/api/autores', {
       statusCode: 500,
       body: 'Internal Server Error'
     }).as('getAutoresError');
