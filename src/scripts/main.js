@@ -1,4 +1,5 @@
 // main.js - Punto de entrada global
-import '../styles/global.css'; // Esto en vite/webpack funcionaría, pero para HTML plano lo importamos mediante link.
+// Los estilos globales se cargan vía <link> en cada vista; un import de CSS
+// desde un módulo ES falla en el navegador sin bundler.
 
 console.log('Literalura App Initialized');

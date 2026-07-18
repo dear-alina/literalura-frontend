@@ -1,4 +1,4 @@
-import { ApiClient } from '../api.js';
+import { ApiClient, API_BASE_URL } from '../api.js';
 
 // Mock de la función global fetch
 global.fetch = jest.fn();
@@ -11,7 +11,7 @@ describe('API Utils: ApiClient', () => {
     test('getAutores debe llamar a /autores con el método GET', async () => {
         fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ content: [] }) });
         await ApiClient.getAutores();
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/api/autores');
+        expect(fetch).toHaveBeenCalledWith(`${API_BASE_URL}/autores`);
     });
 
     test('updateLibro debe realizar un PUT con headers y body correctos', async () => {
@@ -20,7 +20,7 @@ describe('API Utils: ApiClient', () => {
         
         await ApiClient.updateLibro(1, data);
         
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/api/libros/1', {
+        expect(fetch).toHaveBeenCalledWith(`${API_BASE_URL}/libros/1`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -33,7 +33,7 @@ describe('API Utils: ApiClient', () => {
         
         await ApiClient.patchNotaLibro(2, data);
         
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/api/libros/2/nota', {
+        expect(fetch).toHaveBeenCalledWith(`${API_BASE_URL}/libros/2/nota`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -46,7 +46,7 @@ describe('API Utils: ApiClient', () => {
         
         const response = await ApiClient.buscarYRegistrarLibro('1984');
         
-        expect(fetch).toHaveBeenCalledWith('http://localhost:8080/api/libros/buscar-y-registrar', {
+        expect(fetch).toHaveBeenCalledWith(`${API_BASE_URL}/libros/buscar-y-registrar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ titulo: '1984' })

@@ -17,13 +17,11 @@ describe('Global Search Integration', () => {
         // Preparar el JSDOM
         document.documentElement.innerHTML = html;
         jest.clearAllMocks();
-        
-        // Simular window.location para probar la redirección
-        Object.defineProperty(window, 'location', {
-            writable: true,
-            configurable: true,
-            value: { href: '' }
-        });
+        // Fuerza una instancia fresca del script por test: sin esto, el módulo
+        // cacheado conserva referencias a nodos del DOM del test anterior.
+        jest.resetModules();
+        // Nota: JSDOM no permite redefinir window.location; la redirección
+        // post-registro se verifica en el nivel E2E (Cypress), no aquí.
     });
 
     test('debería mostrar error si el input está vacío', async () => {

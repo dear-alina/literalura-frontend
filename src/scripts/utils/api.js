@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://literalura-mvmt.onrender.com/api';
+export const API_BASE_URL = 'https://literalura-mvmt.onrender.com/api';
 
 /**
  * Cliente API centralizado para interactuar con el backend

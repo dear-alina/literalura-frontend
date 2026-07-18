@@ -37,7 +37,7 @@ describe('Libro Catalog Integration', () => {
         // Debería haber 2 tarjetas de libros
         expect(grid.children.length).toBe(2);
         
-        const titles = Array.from(grid.querySelectorAll('.book-title')).map(el => el.textContent);
+        const titles = Array.from(grid.querySelectorAll('.title-text')).map(el => el.textContent);
         expect(titles).toContain('1984');
         expect(titles).toContain('El Quijote');
     });
@@ -63,7 +63,7 @@ describe('Libro Catalog Integration', () => {
         expect(ApiClient.getLibrosPorIdioma).toHaveBeenCalledWith('es');
         
         const grid = document.getElementById('books-grid');
-        const titles = Array.from(grid.querySelectorAll('.book-title')).map(el => el.textContent);
+        const titles = Array.from(grid.querySelectorAll('.title-text')).map(el => el.textContent);
         expect(titles).toContain('El Quijote');
         expect(titles).not.toContain('1984');
     });

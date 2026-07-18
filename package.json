@@ -5,8 +5,11 @@
   "directories": {
     "doc": "docs"
   },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "scripts": {
-    "test": "jest --env=jsdom",
+    "test": "jest",
     "start": "http-server src -p 3000 -c-1",
     "cy:open": "cypress open",
     "cy:run": "cypress run"
