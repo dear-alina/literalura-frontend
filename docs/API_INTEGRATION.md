@@ -92,18 +92,21 @@ Todos los errores devuelven el siguiente cuerpo JSON:
 
 ### `POST /api/libros/buscar-y-registrar`
 
-- **Descripción:** Busca un libro por título en la API externa **Gutendex**. Si ya existe en la base de datos local lo retorna directamente; si no existe, lo registra junto con su autor y devuelve los datos persistidos.
+- **Descripción:** Registra en la base de datos un libro **que el navegador ya obtuvo de Gutendex**. El frontend consulta Gutendex directamente (ver `GutendexClient` en `api.js`) porque Cloudflare bloquea con HTTP 403 las peticiones del backend desde la IP de datacenter de Render; el navegador, con IP residencial y CORS permitido por Gutendex, sí las resuelve. El backend deduplica por `gutendexId` y persiste.
 - **Controlador y Método:** `LibroController.buscarYRegistrar`
-- **Parámetros de Entrada:** Ninguno.
-- **Cuerpo de Solicitud (Request Body):**
+- **Cuerpo de Solicitud (Request Body — `RegistrarLibroDTO`):**
 
 ```json
 {
-  "titulo": "Oliver Twist"
+  "gutendexId": 730,
+  "titulo": "Oliver Twist",
+  "autores": [{ "nombre": "Charles Dickens", "anoNacimiento": 1812, "anoFallecimiento": 1870 }],
+  "idiomas": ["en"],
+  "descargas": 3200
 }
 ```
 
-> El campo `titulo` es **obligatorio** (`@NotBlank`).
+> `gutendexId` y `titulo` son **obligatorios** (`@NotNull` / `@NotBlank`). El frontend arma este cuerpo con `mapearLibroGutendex()` a partir del resultado de Gutendex.
 
 - **Cuerpo de Respuesta — Éxito (libro registrado):**
 
@@ -129,22 +132,11 @@ Todos los errores devuelven el siguiente cuerpo JSON:
 }
 ```
 
-- **Cuerpo de Respuesta — Error (libro no encontrado en Gutendex):**
+- **Caso "no encontrado en Gutendex":** lo detecta el **navegador** antes de llamar al backend. `ApiClient.buscarYRegistrarLibro()` devuelve un objeto sintético `{ ok: false, status: 404, json: () => ({ mensaje: 'Libro no encontrado en Gutendex' }) }` y la vista muestra "No se encontraron coincidencias" sin generar tráfico al backend.
 
-```json
-{
-  "id": null,
-  "titulo": null,
-  "autor": null,
-  "idioma": null,
-  "mensaje": "Libro no encontrado en Gutendex"
-}
-```
-
-- **Códigos de Estado HTTP:**
-  - `201 Created` — Libro buscado y/o registrado exitosamente.
-  - `400 Bad Request` — El campo `titulo` está vacío o no se envió.
-  - `404 Not Found` — El título no fue encontrado en Gutendex.
+- **Códigos de Estado HTTP (backend):**
+  - `201 Created` — Libro registrado, o ya existente tras deduplicar por `gutendexId`.
+  - `400 Bad Request` — Falta `gutendexId` o `titulo` en el cuerpo.
   - `500 Internal Server Error` — Error interno del servidor (p. ej. fallo de red con Gutendex).
 
 ---
@@ -521,7 +513,7 @@ Todos los errores devuelven el siguiente cuerpo JSON:
 | Método   | Ruta                                | Descripción                                              |
 |----------|-------------------------------------|----------------------------------------------------------|
 | `GET`    | `/api/libros`                       | Listar todos los libros (paginado)                       |
-| `POST`   | `/api/libros/buscar-y-registrar`    | Buscar en Gutendex y registrar libro                     |
+| `POST`   | `/api/libros/buscar-y-registrar`    | Registrar libro obtenido de Gutendex por el navegador    |
 | `GET`    | `/api/libros/busqueda-flexible`     | ⭐ Búsqueda flexible por título o autor (parcial)        |
 | `GET`    | `/api/libros/buscar`                | Buscar libro por título exacto en BD                     |
 | `GET`    | `/api/libros/idioma`                | ⭐ Filtrar libros por idioma (`en`, `es`, `pt`, `ru`)    |
@@ -537,7 +529,9 @@ Todos los errores devuelven el siguiente cuerpo JSON:
 
 1. **Búsqueda por título (`GET /api/libros/buscar`):** La búsqueda es **exacta** (`findByTitulo`). Para encontrar un libro, el parámetro `titulo` debe coincidir exactamente con el valor almacenado en la base de datos, incluyendo mayúsculas/minúsculas.
 
-2. **Registro automático de autor:** Al usar `POST /api/libros/buscar-y-registrar`, si el autor del libro obtenido desde Gutendex no existe en la BD, se crea automáticamente con sus datos de nacimiento y fallecimiento.
+2. **Consulta a Gutendex desde el navegador:** el frontend llama a Gutendex directamente (`GUTENDEX_BASE_URL` en `api.js`) porque Cloudflare bloquea (403) al backend desde Render. El navegador mapea el resultado con `mapearLibroGutendex()` y lo envía a `POST /api/libros/buscar-y-registrar`.
+
+3. **Registro automático de autor:** Al usar `POST /api/libros/buscar-y-registrar`, si el autor del libro no existe en la BD, se crea automáticamente con sus datos de nacimiento y fallecimiento.
 
 3. **Actualización parcial (`PUT /api/libros/{id}`):** Si en el body se envía un `autorNombre` que no existe en la BD, se crea un autor nuevo solo con ese nombre (sin años de nacimiento/fallecimiento).
 

@@ -1,4 +1,39 @@
 export const API_BASE_URL = 'https://literalura-mvmt.onrender.com/api';
+export const GUTENDEX_BASE_URL = 'https://gutendex.com/books';
+
+/**
+ * Consulta Gutendex directamente desde el navegador.
+ *
+ * El backend no puede consultar Gutendex desde Render: Cloudflare responde 403
+ * ("Just a moment...") a las IP de datacenter. El navegador, con IP residencial,
+ * sí supera ese control y CORS lo permite (access-control-allow-origin: *).
+ * Devuelve el primer resultado o null si no hay coincidencias.
+ */
+export async function buscarEnGutendex(titulo) {
+    const url = `${GUTENDEX_BASE_URL}?search=${encodeURIComponent(titulo)}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Error consultando Gutendex');
+    const data = await response.json();
+    return (data.results && data.results.length > 0) ? data.results[0] : null;
+}
+
+/**
+ * Traduce un libro del formato Gutendex al contrato que espera el backend
+ * (POST /api/libros/buscar-y-registrar → RegistrarLibroDTO).
+ */
+export function mapearLibroGutendex(libro) {
+    return {
+        gutendexId: libro.id,
+        titulo: libro.title,
+        autores: (libro.authors || []).map(a => ({
+            nombre: a.name,
+            anoNacimiento: a.birth_year,
+            anoFallecimiento: a.death_year
+        })),
+        idiomas: libro.languages || [],
+        descargas: libro.download_count
+    };
+}
 
 /**
  * Cliente API centralizado para interactuar con el backend
@@ -62,12 +97,27 @@ export const ApiClient = {
         if (!response.ok) throw new Error('Error patching nota');
         return response.json();
     },
+    // El navegador busca en Gutendex y envía el libro ya resuelto al backend, que
+    // solo deduplica y persiste. Devuelve siempre un objeto con {ok, status, json()}
+    // para que la vista maneje los códigos de estado de forma uniforme (201, 404, 502).
     buscarYRegistrarLibro: async (titulo) => {
+        let libroGutendex;
+        try {
+            libroGutendex = await buscarEnGutendex(titulo);
+        } catch (e) {
+            return { ok: false, status: 502, json: async () => ({ mensaje: 'No se pudo consultar Gutendex' }) };
+        }
+
+        if (!libroGutendex) {
+            return { ok: false, status: 404, json: async () => ({ mensaje: 'Libro no encontrado en Gutendex' }) };
+        }
+
+        const payload = mapearLibroGutendex(libroGutendex);
         const response = await fetch(`${API_BASE_URL}/libros/buscar-y-registrar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ titulo })
+            body: JSON.stringify(payload)
         });
-        return response; // Return raw response to handle specific status codes (400, 409, 201)
+        return response; // Response real del backend (201, 409, etc.)
     }
 };
